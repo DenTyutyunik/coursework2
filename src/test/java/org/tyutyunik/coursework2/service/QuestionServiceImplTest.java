@@ -3,6 +3,7 @@ package org.tyutyunik.coursework2.service;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.tyutyunik.coursework2.service.TestData.*;
 
 import org.tyutyunik.coursework2.exceptions.*;
 import org.tyutyunik.coursework2.model.Question;
@@ -13,7 +14,7 @@ class QuestionServiceImplTest {
 
     @Test
     void addQuestion() {
-        Question question = new Question("Новый вопрос", "Новый ответ");
+        Question question = QUESTION1;
         Question addedQuestion = questionService.add(question);
         assertEquals(question, addedQuestion);
         assertTrue(questionService.getAll().contains(question));
@@ -34,8 +35,7 @@ class QuestionServiceImplTest {
 
     @Test
     void removeQuestion_notFound() {
-        Question question = new Question("Несуществующий вопрос", "Несуществующий ответ");
-        assertThrows(QuestionNotFoundException.class, () -> questionService.remove(question));
+        assertThrows(QuestionNotFoundException.class, () -> questionService.remove(QUESTION1));
     }
 
     @Test

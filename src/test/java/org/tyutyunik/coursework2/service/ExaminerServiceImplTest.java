@@ -1,33 +1,39 @@
 package org.tyutyunik.coursework2.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.tyutyunik.coursework2.service.TestData.*;
 
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.tyutyunik.coursework2.exceptions.*;
+import org.tyutyunik.coursework2.model.Question;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class ExaminerServiceImplTest {
     @Mock
-    private final QuestionService questionService = Mockito.mock(QuestionService.class);
+    private QuestionService questionService;
     @InjectMocks
-    private final ExaminerServiceImpl examinerService = new ExaminerServiceImpl(questionService);
+    private ExaminerServiceImpl examinerService;
 
-    /*@Test
-    void getQuestions_validAmount() {
-        Mockito.when(questionService.getAll()).thenReturn(List.of(
-                new Question("Question 1", "Answer 1"),
-                new Question("Question 2", "Answer 2"),
-                new Question("Question 3", "Answer 3")
-        ));
-        Collection<Question> questions = examinerService.getQuestions(2);
-        assertEquals(2, questions.size());
-    }*/
+    @Test
+    void getQuestions() {
+        when(questionService.getAll()).thenReturn(getAll());
+        when(questionService.getRandomQuestion()).thenReturn(QUESTION1, QUESTION2, QUESTION3);
+
+        Collection<Question> actual = examinerService.getQuestions(3);
+        assertEquals(3, actual.size());
+    }
 
     @Test
     void getQuestions_invalidAmount_negative() {
